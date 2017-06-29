@@ -1,12 +1,13 @@
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.ml.evaluation.RegressionEvaluator
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.ml.tuning.{ParamGridBuilder, TrainValidationSplit}
+import org.apache.spark.ml.feature.VectorAssembler
+import org.apache.spark.ml.linalg.Vectors
 
 import org.apache.log4j._
 Logger.getLogger("org").setLevel(Level.ERROR)
 
-
-import org.apache.spark.sql.SparkSession
 val spark = SparkSession.builder().getOrCreate()
 
 // Prepare training and test data.
@@ -27,9 +28,6 @@ for(ind <- Range(1,colnames.length)){
 ////////////////////////////////////////////////////
 //// Setting Up DataFrame for Machine Learning ////
 //////////////////////////////////////////////////
-
-import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.ml.linalg.Vectors
 
 // grab only numerical columns and set Price as to be predicted label
 val df = data.select(data("Price").as("label"),$"Avg Area Income",$"Avg Area House Age",$"Avg Area Number of Rooms",$"Area Population")
